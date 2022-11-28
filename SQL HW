@@ -1,0 +1,93 @@
+# DDL - Create
+
+create database store;
+
+create table countries
+(
+    code int primary key ,
+    name varchar(20) unique ,
+    continent_name varchar(20) not null
+);
+
+create table users
+(
+    id int primary key ,
+    full_name varchar(20),
+    email varchar(20) unique,
+    gender char(1) check ( gender='m' or gender='f'),
+    date_of_birth varchar(15),
+    craeted_at timestamp not null default CURRENT_TIMESTAMP,
+    conuntry_code int ,
+    foreign key (conuntry_code) references countries(code)
+
+);
+
+create table orders
+(
+    id int primary key ,
+    status varchar(6) check ( status='start' or status='finish' ),
+    craeted_at timestamp not null default CURRENT_TIMESTAMP,
+    user_id int,
+    foreign key (user_id) references users(id)
+
+
+);
+
+create table order_products
+(
+    quantity int default 0,
+    orders_id int ,
+    foreign key (orders_id) references orders(id),
+    product_id int,
+    foreign key (product_id) references products(id)
+
+
+
+);
+
+create table products
+(
+    id int primary key ,
+    name varchar(10) not null ,
+    price int default 0,
+    status varchar(10) check ( status='valid' or status='expired' ),
+    craeted_at timestamp not null default CURRENT_TIMESTAMP
+
+
+
+
+);
+
+# DML - Insert
+
+insert into countries value (1,'saudi arabia','aaa');
+insert into countries value (2,'kuait','kkk');
+insert into countries value (3,'Qatar','QQQ');
+
+insert into users (id, full_name, email, gender, date_of_birth, conuntry_code) VALUE (1,'rayef zaki','r@r.com','m','13-1-1996',1);
+
+insert into orders (id, status, user_id) value (1,'start',1);
+
+insert into order_products (quantity,orders_id, product_id)
+values (5,1,1);
+
+insert into products (id, name,price,status) value (1,'game',70,'valid');
+insert into products (id, name,price,status) value (2,'aaa',100,'expired');
+
+
+# DML - Update
+
+update  countries set name='turkey' where code=2;
+
+# DML - Delete
+
+delete from products where id=2;
+
+# DQL - Select
+
+
+select  * from countries;
+select * from users;
+select * from orders;
+select  * from products;
+select * from order_products;
